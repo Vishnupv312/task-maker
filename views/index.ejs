@@ -5,9 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </Head>
 
 <body>
+
     <div class=" main w-full min-h-screen bg-zinc-900 p-10  ">
         <div class=" text-center text-white font-mono font-semibold pb-6 text-xl">Task Maker</div>
         <form action="/create" method="post">
@@ -33,19 +36,15 @@
                                 class="text-blue-600 text-sm cursor-pointer tracking-tighter hover:tracking-wider transition-all duration-300 translate-x-2 transform-gpu">Read
                                 More</a>
                         </div>
+                        <a href="/edit/<%= val %>">
+                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20"
+                                viewBox="0 0 24 24" fill="white">
+                                <path
+                                    d="M 18.414062 2 C 18.158062 2 17.902031 2.0979687 17.707031 2.2929688 L 15.707031 4.2929688 L 14.292969 5.7070312 L 3 17 L 3 21 L 7 21 L 21.707031 6.2929688 C 22.098031 5.9019687 22.098031 5.2689063 21.707031 4.8789062 L 19.121094 2.2929688 C 18.926094 2.0979687 18.670063 2 18.414062 2 z M 18.414062 4.4140625 L 19.585938 5.5859375 L 18.292969 6.8789062 L 17.121094 5.7070312 L 18.414062 4.4140625 z M 15.707031 7.1210938 L 16.878906 8.2929688 L 6.171875 19 L 5 19 L 5 17.828125 L 15.707031 7.1210938 z">
+                                </path>
+                            </svg>
+                        </a>
 
-
-                        <form action="/file/<%= val %>" method="post">
-
-                            <button type="submit">
-                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20"
-                                    viewBox="0 0 24 24">
-                                    <path
-                                        d="M 10 2 L 9 3 L 3 3 L 3 5 L 4.109375 5 L 5.8925781 20.255859 L 5.8925781 20.263672 C 6.023602 21.250335 6.8803207 22 7.875 22 L 16.123047 22 C 17.117726 22 17.974445 21.250322 18.105469 20.263672 L 18.107422 20.255859 L 19.890625 5 L 21 5 L 21 3 L 15 3 L 14 2 L 10 2 z M 6.125 5 L 17.875 5 L 16.123047 20 L 7.875 20 L 6.125 5 z">
-                                    </path>
-                                </svg>
-                            </button>
-                        </form>
                     </div>
                     <% }) %>
                         <% } else { %>
@@ -56,4 +55,12 @@
 
     </div>
 
+    <script>
+        // Show toast if message is present in the URL query params
+
+        const message = "<%= message %>";
+        if (message) {
+            M.toast({ html: message });
+        }
+    </script>
 </body>

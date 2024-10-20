@@ -10,14 +10,8 @@ app.set("view engine", "ejs");
 
 app.get("/", function (req, res) {
   fs.readdir(`./files`, function (err, files) {
-    console.log(files);
-    // files.map((item) => {
-    //   const data = fs.readFile(item, function (err, data) {
-    //     console.log("data in the item is", data);
-    //   });
-    // })
-    // console.log(err);
-    res.render("index", { files: files });
+    const message = req.query.message || ""; // Capture the message from the query string
+    res.render("index", { files: files, message: message });
   });
 });
 
@@ -52,16 +46,47 @@ app.get("/file/:filename", function (req, res) {
   );
 });
 
-app.post("file/:filename", function (req, res) {
-  fs.unlink(`./files/${req.params.filename}`, function (err) {
+app.get("/edit/:filename", function (req, res) {
+  fs.readFile(
+    `./files/${req.params.filename}`,
+    "utf-8",
+    function (err, fileData) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.render("edit", {
+          filename: req.params.filename,
+          fileData: fileData,
+        });
+      }
+    }
+  );
+});
+
+app.post("/update/:filename", function (req, res) {
+  const oldPath = `./files/${req.params.filename}`;
+  const newPath = `./files/${req.body.newName}`;
+
+  fs.rename(oldPath, newPath, function (err) {
     if (err) {
       console.log(err);
-      throw err;
     } else {
-      res.render("index");
+      // Redirect with a success message
+      res.redirect("/?message=File updated successfully");
     }
   });
 });
+
+// app.post("file/:filename", function (req, res) {
+//   fs.unlink(`./files/${req.params.filename}`, function (err) {
+//     if (err) {
+//       console.log(err);
+//       throw err;
+//     } else {
+//       res.render("index");
+//     }
+//   });
+// });
 
 app.get("/test", function (res, req) {
   req.send("hello worldtest");
